@@ -53,7 +53,6 @@ const createTask = async (req, res, next) => {
             message: "Task created successfully",
             task
         });
-
     } catch (error) {
 
     }
@@ -90,14 +89,11 @@ const editTask = async (req, res) => {
         existingTask.status = updatedData.status || existingTask.status
         existingTask.userEmail = updatedData.userEmail || existingTask.userEmail
 
-
-
         await existingTask.save();
 
         res.json({
             message: "Task updated successfully"
         });
-
     } catch (error) {
         res.json(error);
     }
@@ -117,7 +113,9 @@ const deleteTask = async (req, res, next) => {
         }
         return res.json({ message: "Task deleted successfully" });
     } catch (error) {
-
+        res.json({
+            message: error
+        })
     }
 }
 
@@ -132,7 +130,9 @@ const getTaskById = async (req, res) => {
         const taskDetails = await Task.findById(taskId, { title: 1, Assign_to: 1, priority: 1, checklist: 1, date: 1, _id: 1 });
         res.json({ data: taskDetails })
     } catch (error) {
-
+        res.json({
+            message: error
+        })
     }
 }
 
@@ -147,7 +147,6 @@ const getAllTask = async (req, res) => {
         }
 
         const taskList = await Task.find(filter);
-
         res.json({ data: taskList });
 
     } catch (error) {
@@ -202,7 +201,6 @@ const updateChecklistItem = async (req, res, next) => {
             message: "Checklist item updated successfully",
             task: task
         });
-
     } catch (error) {
         next(error);
     }

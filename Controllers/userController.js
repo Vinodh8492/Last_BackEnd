@@ -44,9 +44,8 @@ const registerUser = async (req, res, next) => {
 
         await userData.save();
         res.json({ message: "user registered successfully" })
-
     } catch (error) {
-        next(error)
+        console.log(error)
     }
 }
 
@@ -78,9 +77,7 @@ const loginUser = async (req, res, next) => {
 
         const token = jwt.sign({ userId: userDetails._id }, 'vinodh');
 
-
         res.json({ message: "User logged in successfully", name: userDetails.name, token: token, email: userDetails.email, id: userDetails._id })
-
     }
     catch (error) {
         console.log(error)
@@ -96,11 +93,9 @@ const getAllUserDetails = async (req, res) => {
             const regex = new RegExp(Category, "i");
             filter = { Category: regex };
         }
-
         const userList = await User.find(filter);
 
         res.json({ data: userList });
-
     } catch (error) {
         res.json(error)
     }
@@ -117,7 +112,9 @@ const getUserDetailsById = async (req, res, next) => {
         const userDetails = await User.findById(userId, { name: 1, email: 1, password: 1 });
         res.json({ data: userDetails })
     } catch (error) {
-
+        res.json({
+            message: error
+        })
     }
 }
 
@@ -155,7 +152,6 @@ const updateUserDetails = async (req, res, next) => {
             message: "user details updated successfully",
             updatedData
         });
-
     } catch (error) {
         res.json(error);
     }
@@ -183,7 +179,6 @@ const allAddedEmails = async (req, res, next) => {
             return res.json({ message: 'Email already exists for this user.' });
         }
 
-
         if (email === userEmail) {
             return res.json({ message: "You cannot add yourself as an assignee" })
         }
@@ -195,7 +190,6 @@ const allAddedEmails = async (req, res, next) => {
 
         await emailData.save();
         res.json({ message: "E-mail added successfully" })
-
     } catch (error) {
         console.log(error)
     }
@@ -204,7 +198,6 @@ const allAddedEmails = async (req, res, next) => {
 const getAllEmailDetails = async (req, res) => {
     try {
         const { userEmail } = req.params;
-
         const emailList = await Email.find({ userEmail });
 
         res.json({ data: emailList });

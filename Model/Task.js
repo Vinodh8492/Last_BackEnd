@@ -45,7 +45,6 @@ const taskSchema = mongoose.Schema({
         enum: ['backlog', 'to do', 'in progress', 'done'],
         default: 'to do'
     },
-
 }, {
     timestamps: {
         createdAt: "createdAt",
