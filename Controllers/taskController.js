@@ -54,7 +54,7 @@ const createTask = async (req, res, next) => {
             task
         });
     } catch (error) {
-
+        res.json(error)
     }
 };
 
